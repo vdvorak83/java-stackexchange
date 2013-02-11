@@ -1,4 +1,5 @@
 java-stackexchange
 ==================
 
-Java Stackexchange 2.1 API
+# Goals
+- this is a simple Java Client for the Stackexchange 2.x API
