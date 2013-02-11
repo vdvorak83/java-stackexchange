@@ -125,25 +125,6 @@
 		<maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
 	</properties>
 
-	<repositories>
-
-		<repository>
-			<id>apache-snapshot</id>
-			<name>Apache Maven Snapshot Repository</name>
-			<url>https://repository.apache.org/content/groups/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>repository.springsource.milestone</id>
-			<name>SpringSource Milestone Repository</name>
-			<url>http://repo.springsource.org/milestone</url>
-		</repository>
-
-	</repositories>
-
 	<issueManagement>
 		<url>https://github.com/eugenp/java-stackexchange/issues</url>
 		<system>GitHub Issues</system>
