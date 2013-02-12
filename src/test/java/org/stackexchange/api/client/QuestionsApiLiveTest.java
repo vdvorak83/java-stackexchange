@@ -59,7 +59,7 @@ public class QuestionsApiLiveTest {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
-        System.out.println(questionsArray.get(0));
+        System.out.println(questionsArray.size());
     }
 
 }
