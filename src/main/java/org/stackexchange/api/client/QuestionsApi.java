@@ -3,14 +3,14 @@ package org.stackexchange.api.client;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
 
 public class QuestionsApi {
-    private CloseableHttpClient client;
+    private HttpClient client;
 
-    public QuestionsApi(final CloseableHttpClient client) {
+    public QuestionsApi(final HttpClient client) {
         super();
 
         this.client = client;
@@ -19,14 +19,21 @@ public class QuestionsApi {
     // API
 
     public final String questions() {
-        try (final CloseableHttpResponse httpResponse = client.execute(new HttpGet(ApiUris.getQuestionsUri()))) {
+        HttpGet request = null;
+        try {
+            request = new HttpGet(ApiUris.getQuestionsUri());
+            final HttpResponse httpResponse = client.execute(request);
             return IOUtils.toString(httpResponse.getEntity().getContent());
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
+        } finally {
+            if (request != null) {
+                request.releaseConnection();
+            }
         }
     }
 
-    public final CloseableHttpResponse questionsAsResponse() {
+    public final HttpResponse questionsAsResponse() {
         try {
             return client.execute(new HttpGet(ApiUris.getQuestionsUri()));
         } catch (final IOException ex) {

@@ -2,15 +2,17 @@ package org.stackexchange.api.client;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.DecompressingHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +27,7 @@ public class QuestionsApiLiveTest {
 
     @Before
     public final void before() {
-        questionsApi = new QuestionsApi(HttpClientBuilder.create().build());
+        questionsApi = new QuestionsApi(new DecompressingHttpClient(new DefaultHttpClient()));
     }
 
     // tests
@@ -37,13 +39,13 @@ public class QuestionsApiLiveTest {
 
     @Test
     public final void whenRequestIsPerformed_thenSuccess() throws ClientProtocolException, IOException {
-        final CloseableHttpResponse httpResponse = questionsApi.questionsAsResponse();
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse();
         assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(200));
     }
 
     @Test
     public final void whenRequestIsPerformed_thenOutputIsJson() throws ClientProtocolException, IOException {
-        final CloseableHttpResponse httpResponse = questionsApi.questionsAsResponse();
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse();
         assertThat(httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].getValue(), containsString("application/json"));
     }
 
@@ -59,7 +61,7 @@ public class QuestionsApiLiveTest {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
-        System.out.println(questionsArray.size());
+        assertThat(questionsArray.size(), greaterThan(10));
     }
 
 }
