@@ -18,10 +18,10 @@ public class QuestionsApi {
 
     // API
 
-    public final String questions() {
+    public final String questions(final int min) {
         HttpGet request = null;
         try {
-            request = new HttpGet(ApiUris.getQuestionsUri());
+            request = new HttpGet(ApiUris.getQuestionsUri(min));
             final HttpResponse httpResponse = client.execute(request);
             return IOUtils.toString(httpResponse.getEntity().getContent());
         } catch (final IOException ex) {
@@ -33,9 +33,9 @@ public class QuestionsApi {
         }
     }
 
-    public final HttpResponse questionsAsResponse() {
+    public final HttpResponse questionsAsResponse(final int min) {
         try {
-            return client.execute(new HttpGet(ApiUris.getQuestionsUri()));
+            return client.execute(new HttpGet(ApiUris.getQuestionsUri(min)));
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

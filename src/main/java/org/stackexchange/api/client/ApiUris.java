@@ -12,8 +12,8 @@ public class ApiUris {
 
     // API
 
-    public static String getQuestionsUri() {
-        final String params = new RequestBuilder().add(Questions.order, "desc").add(Questions.sort, "votes").add(Questions.min, 100).add(Questions.site, Sites.serverfault).build();
+    public static String getQuestionsUri(final int min) {
+        final String params = new RequestBuilder().add(Questions.order, "desc").add(Questions.sort, "votes").add(Questions.min, min).add(Questions.site, Sites.serverfault).build();
         return API_2_1 + "/questions" + params;
     }
 
