@@ -6,8 +6,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.stackexchange.api.constants.Site;
 
 public class QuestionsApi {
+    public static final String LINK = "link";
+    public static final String TITLE = "title";
+    public static final String QUESTION_ID = "question_id";
+
     private HttpClient client;
 
     public QuestionsApi(final HttpClient client) {
@@ -18,10 +23,10 @@ public class QuestionsApi {
 
     // API
 
-    public final String questions(final int min) {
+    public final String questions(final int min, final Site site) {
         HttpGet request = null;
         try {
-            request = new HttpGet(ApiUris.getQuestionsUri(min));
+            request = new HttpGet(ApiUris.getQuestionsUri(min, site));
             final HttpResponse httpResponse = client.execute(request);
             return IOUtils.toString(httpResponse.getEntity().getContent());
         } catch (final IOException ex) {
@@ -33,9 +38,11 @@ public class QuestionsApi {
         }
     }
 
-    public final HttpResponse questionsAsResponse(final int min) {
+    // non-API
+
+    final HttpResponse questionsAsResponse(final int min, final Site site) {
         try {
-            return client.execute(new HttpGet(ApiUris.getQuestionsUri(min)));
+            return client.execute(new HttpGet(ApiUris.getQuestionsUri(min, site)));
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

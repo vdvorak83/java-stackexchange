@@ -1,5 +1,5 @@
 package org.stackexchange.api.constants;
 
-public enum Sites {
+public enum Site {
     serverfault, stackoverflow, askubuntu
 }
