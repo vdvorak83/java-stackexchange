@@ -33,36 +33,54 @@ public class QuestionsApiLiveTest {
 
     // tests
 
+    // serverfault
+
     @Test
     public final void whenInitialRequestIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
-        questionsApi.questions(100, Site.serverfault);
+        questionsApi.questions(50, Site.serverfault);
     }
 
     @Test
     public final void whenRequestIsPerformed_thenSuccess() throws ClientProtocolException, IOException {
-        final HttpResponse httpResponse = questionsApi.questionsAsResponse(100, Site.serverfault);
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse(50, Site.serverfault);
         assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(200));
     }
 
     @Test
     public final void whenRequestIsPerformed_thenOutputIsJson() throws ClientProtocolException, IOException {
-        final HttpResponse httpResponse = questionsApi.questionsAsResponse(100, Site.serverfault);
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse(50, Site.serverfault);
         assertThat(httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].getValue(), containsString("application/json"));
     }
 
     @Test
     public final void whenRequestIsPerformed_thenOutputIsCorrect() throws ClientProtocolException, IOException {
-        final String responseBody = questionsApi.questions(100, Site.serverfault);
+        final String responseBody = questionsApi.questions(50, Site.serverfault);
         assertThat(responseBody, notNullValue());
     }
 
     @Test
     public final void whenParsingOutputFromQuestionsApi_thenOutputIsParsable() throws ClientProtocolException, IOException {
-        final String questionsAsJson = questionsApi.questions(100, Site.serverfault);
+        final String questionsAsJson = questionsApi.questions(50, Site.serverfault);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
-        assertThat(questionsArray.size(), greaterThan(10));
+        assertThat(questionsArray.size(), greaterThan(20));
+    }
+
+    // askubuntu
+
+    @Test
+    public final void givenOnAskUbuntu_whenInitialRequestIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
+        questionsApi.questions(100, Site.askubuntu);
+    }
+
+    @Test
+    public final void givenOnAskUbuntu_whenParsingOutputFromQuestionsApi_thenOutputIsParsable() throws ClientProtocolException, IOException {
+        final String questionsAsJson = questionsApi.questions(50, Site.askubuntu);
+        final ObjectMapper mapper = new ObjectMapper();
+        final JsonNode rootNode = mapper.readTree(questionsAsJson);
+        final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
+        assertThat(questionsArray.size(), greaterThan(20));
     }
 
 }
