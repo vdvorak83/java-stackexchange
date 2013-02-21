@@ -6,9 +6,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.stackexchange.api.constants.Site;
 
 public class QuestionsApi {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public static final String LINK = "link";
     public static final String TITLE = "title";
     public static final String QUESTION_ID = "question_id";
@@ -24,9 +28,15 @@ public class QuestionsApi {
     // API
 
     public final String questions(final int min, final Site site) {
+        final String questionsUri = ApiUris.getQuestionsUri(min, site);
+        logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUri);
+        return questions(min, questionsUri);
+    }
+
+    public final String questions(final int min, final String questionsUri) {
         HttpGet request = null;
         try {
-            request = new HttpGet(ApiUris.getQuestionsUri(min, site));
+            request = new HttpGet(questionsUri);
             final HttpResponse httpResponse = client.execute(request);
             return IOUtils.toString(httpResponse.getEntity().getContent());
         } catch (final IOException ex) {

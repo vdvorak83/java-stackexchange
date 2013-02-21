@@ -36,7 +36,7 @@ public class QuestionsApiLiveTest {
     // serverfault
 
     @Test
-    public final void whenInitialRequestIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
+    public final void whenRequestIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
         questionsApi.questions(50, Site.serverfault);
     }
 
@@ -81,6 +81,13 @@ public class QuestionsApiLiveTest {
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
         assertThat(questionsArray.size(), greaterThan(20));
+    }
+
+    // stackoverflow tag
+
+    @Test
+    public final void givenOnSO_whenRequestOnTagIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
+        questionsApi.questions(100, Site.askubuntu);
     }
 
 }
