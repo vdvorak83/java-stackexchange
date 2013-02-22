@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -81,6 +82,22 @@ public class QuestionsApiLiveTest {
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
         assertThat(questionsArray.size(), greaterThan(20));
+    }
+
+    // character encoding
+
+    @Test
+    public final void givenOutputFromQuestionsApi_whenCharacterEncodingIsAnalyzed_thenOutputIsParsable() throws ClientProtocolException, IOException {
+        final String questionsAsJson = questionsApi.questions(50, Site.askubuntu);
+        final ObjectMapper mapper = new ObjectMapper();
+        final JsonNode rootNode = mapper.readTree(questionsAsJson);
+        final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
+        for (final JsonNode question : questionsArray) {
+            final String title = question.get(QuestionsApi.TITLE).toString();
+            final String fullTweet = title.substring(1, title.length() - 1);
+            StringEscapeUtils.escapeJava(fullTweet);
+            System.out.println(fullTweet);
+        }
     }
 
     // stackoverflow tag
