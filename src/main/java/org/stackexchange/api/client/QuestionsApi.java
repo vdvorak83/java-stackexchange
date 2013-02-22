@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -42,7 +41,7 @@ public class QuestionsApi {
             final HttpResponse httpResponse = client.execute(request);
             // String contentType = httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].toString();
             final String escapedHtml = IOUtils.toString(httpResponse.getEntity().getContent(), Charset.forName("utf-8"));
-            return StringEscapeUtils.unescapeHtml4(escapedHtml);
+            return escapedHtml;
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         } finally {
