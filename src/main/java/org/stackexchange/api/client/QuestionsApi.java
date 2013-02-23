@@ -1,6 +1,7 @@
 package org.stackexchange.api.client;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
@@ -40,8 +41,9 @@ public class QuestionsApi {
             request = new HttpGet(questionsUri);
             final HttpResponse httpResponse = client.execute(request);
             // String contentType = httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].toString();
-            final String escapedHtml = IOUtils.toString(httpResponse.getEntity().getContent(), Charset.forName("utf-8"));
-            return escapedHtml;
+            final InputStream entityContentStream = httpResponse.getEntity().getContent();
+            final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
+            return outputAsEscapedHtml;
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         } finally {
