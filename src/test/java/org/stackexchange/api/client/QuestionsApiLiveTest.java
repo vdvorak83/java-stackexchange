@@ -50,7 +50,8 @@ public class QuestionsApiLiveTest {
     @Test
     public final void whenRequestIsPerformed_thenOutputIsJson() throws ClientProtocolException, IOException {
         final HttpResponse httpResponse = questionsApi.questionsAsResponse(50, Site.serverfault);
-        assertThat(httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].getValue(), containsString("application/json"));
+        final String contentType = httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].getValue();
+        assertThat(contentType, containsString("application/json"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class QuestionsApiLiveTest {
     }
 
     @Test
-    public final void whenParsingOutputFromQuestionsApi_thenOutputIsParsable() throws ClientProtocolException, IOException {
+    public final void whenParsingOutputFromQuestionsApi_thenOutputContainsSomeQuestions() throws ClientProtocolException, IOException {
         final String questionsAsJson = questionsApi.questions(50, Site.serverfault);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
