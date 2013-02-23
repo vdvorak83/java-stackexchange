@@ -12,6 +12,7 @@ public final class ApiConstants {
         public static final String min = "min";
         public static final String max = "max";
         public static final String site = "site";
+        public static final String page = "page";
     }
 
 }

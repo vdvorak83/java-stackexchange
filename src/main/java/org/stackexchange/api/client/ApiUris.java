@@ -13,15 +13,23 @@ public class ApiUris {
     // API
 
     public static String getQuestionsUri(final int min, final Site site) {
-        return getUri(min, site, "/questions");
+        return getQuestionsUri(min, site, 1);
     }
 
     public static String getTagUri(final int min, final Site site, final String tag) {
-        return getUri(min, site, "/tags/" + tag + "/faq");
+        return getTagUri(min, site, tag, 1);
     }
 
-    static String getUri(final int min, final Site site, final String operation) {
-        final String params = new RequestBuilder().add(Questions.order, "desc").add(Questions.sort, "votes").add(Questions.min, min).add(Questions.site, site).build();
+    public static String getQuestionsUri(final int min, final Site site, final int page) {
+        return getUri(min, site, "/questions", page);
+    }
+
+    public static String getTagUri(final int min, final Site site, final String tag, final int page) {
+        return getUri(min, site, "/tags/" + tag + "/faq", page);
+    }
+
+    static String getUri(final int min, final Site site, final String operation, final int page) {
+        final String params = new RequestBuilder().add(Questions.order, "desc").add(Questions.sort, "votes").add(Questions.min, min).add(Questions.site, site).add(Questions.page, page).build();
         return API_2_1 + operation + params;
     }
 
