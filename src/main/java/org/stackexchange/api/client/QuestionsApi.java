@@ -29,14 +29,10 @@ public class QuestionsApi {
 
     // API
 
-    public final String questions(final int min, final Site site) {
-        return questions(min, site, 1);
-    }
-
-    public final String questions(final int min, final Site site, final int page) {
-        final String questionsUri = ApiUris.getQuestionsUri(min, site, page);
+    public final String questions(final int minScore, final Site site, final int page) {
+        final String questionsUri = ApiUris.getQuestionsUri(minScore, site, page);
         logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUri);
-        return questions(min, questionsUri);
+        return questions(minScore, questionsUri);
     }
 
     public final String questions(final int min, final String questionsUri) {
@@ -58,6 +54,10 @@ public class QuestionsApi {
     }
 
     // non-API
+
+    final String questions(final int min, final Site site) {
+        return questions(min, site, 1);
+    }
 
     final HttpResponse questionsAsResponse(final int min, final Site site) {
         try {

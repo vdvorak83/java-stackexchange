@@ -13,7 +13,6 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.stackexchange.api.constants.Site;
@@ -29,7 +28,7 @@ public class QuestionsApiLiveTest {
 
     @Before
     public final void before() {
-        questionsApi = new QuestionsApi(new DecompressingHttpClient(new DefaultHttpClient()));
+        questionsApi = new QuestionsApi(new DecompressingHttpClient(HttpUtil.httpClient()));
     }
 
     // tests
