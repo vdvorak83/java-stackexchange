@@ -21,9 +21,9 @@ public final class HttpUtil {
         cxMgr.setDefaultMaxPerRoute(20);
 
         final HttpParams httpParameters = new BasicHttpParams();
-        final int timeoutConnection = 6000;
+        final int timeoutConnection = 60000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        final int timeoutSocket = 6000;
+        final int timeoutSocket = 60000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
         final DefaultHttpClient rawHttpClient = new DefaultHttpClient(cxMgr, httpParameters);
