@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.stackexchange.api.constants.Site;
@@ -32,16 +34,24 @@ public class QuestionsApi {
     public final String questions(final int minScore, final Site site, final int page) {
         final String questionsUri = ApiUris.getQuestionsUri(minScore, site, page);
         logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUri);
-        return questions(minScore, questionsUri);
+        try {
+            return questions(minScore, questionsUri);
+        } catch (final IOException ioEx) {
+            logger.error("", ioEx);
+        }
+
+        return null;
     }
 
-    public final String questions(final int min, final String questionsUri) {
+    public final String questions(final int min, final String questionsUri) throws IOException {
         HttpGet request = null;
+        InputStream entityContentStream = null;
+        HttpEntity httpEntity = null;
         try {
             request = new HttpGet(questionsUri);
             final HttpResponse httpResponse = client.execute(request);
-            // String contentType = httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].toString();
-            final InputStream entityContentStream = httpResponse.getEntity().getContent();
+            httpEntity = httpResponse.getEntity();
+            entityContentStream = httpEntity.getContent();
             final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
             return outputAsEscapedHtml;
         } catch (final IOException ex) {
@@ -49,6 +59,12 @@ public class QuestionsApi {
         } finally {
             if (request != null) {
                 request.releaseConnection();
+            }
+            if (entityContentStream != null) {
+                entityContentStream.close();
+            }
+            if (httpEntity != null) {
+                EntityUtils.consume(httpEntity);
             }
         }
     }
