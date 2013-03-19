@@ -37,31 +37,31 @@ public class QuestionsApiLiveTest {
 
     @Test
     public final void whenRequestIsPerformed_thenNoExceptions() throws ClientProtocolException, IOException {
-        questionsApi.questions(50, Site.serverfault);
+        questionsApi.questions(70, Site.serverfault);
     }
 
     @Test
     public final void whenRequestIsPerformed_thenSuccess() throws ClientProtocolException, IOException {
-        final HttpResponse httpResponse = questionsApi.questionsAsResponse(50, Site.serverfault);
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse(70, Site.serverfault);
         assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(200));
     }
 
     @Test
     public final void whenRequestIsPerformed_thenOutputIsJson() throws ClientProtocolException, IOException {
-        final HttpResponse httpResponse = questionsApi.questionsAsResponse(50, Site.serverfault);
+        final HttpResponse httpResponse = questionsApi.questionsAsResponse(70, Site.serverfault);
         final String contentType = httpResponse.getHeaders(HttpHeaders.CONTENT_TYPE)[0].getValue();
         assertThat(contentType, containsString("application/json"));
     }
 
     @Test
     public final void whenRequestIsPerformed_thenOutputIsCorrect() throws ClientProtocolException, IOException {
-        final String responseBody = questionsApi.questions(50, Site.serverfault);
+        final String responseBody = questionsApi.questions(70, Site.serverfault);
         assertThat(responseBody, notNullValue());
     }
 
     @Test
     public final void whenParsingOutputFromQuestionsApi_thenOutputContainsSomeQuestions() throws ClientProtocolException, IOException {
-        final String questionsAsJson = questionsApi.questions(50, Site.serverfault);
+        final String questionsAsJson = questionsApi.questions(70, Site.serverfault);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
@@ -77,7 +77,7 @@ public class QuestionsApiLiveTest {
 
     @Test
     public final void givenOnAskUbuntu_whenParsingOutputFromQuestionsApi_thenOutputIsParsable() throws ClientProtocolException, IOException {
-        final String questionsAsJson = questionsApi.questions(50, Site.askubuntu);
+        final String questionsAsJson = questionsApi.questions(70, Site.askubuntu);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
@@ -88,7 +88,7 @@ public class QuestionsApiLiveTest {
 
     @Test
     public final void givenOutputFromQuestionsApi_whenCharacterEncodingIsAnalyzed_thenOutputIsParsable() throws ClientProtocolException, IOException {
-        final String questionsAsJson = questionsApi.questions(50, Site.askubuntu);
+        final String questionsAsJson = questionsApi.questions(70, Site.askubuntu);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
