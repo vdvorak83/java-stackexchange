@@ -43,7 +43,22 @@ public class QuestionsApi {
         return null;
     }
 
-    public final String questions(final int min, final String questionsUri) throws IOException {
+    public final String questions(final int minScore, final Site site, final String tag, final int page) {
+        final String questionsUriForTag = ApiUris.getTagUri(minScore, site, tag, page);
+
+        logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUriForTag);
+        try {
+            return questions(minScore, questionsUriForTag);
+        } catch (final IOException ioEx) {
+            logger.error("", ioEx);
+        }
+
+        return null;
+    }
+
+    // non-API
+
+    final String questions(final int min, final String questionsUri) throws IOException {
         HttpGet request = null;
         InputStream entityContentStream = null;
         HttpEntity httpEntity = null;
@@ -68,8 +83,6 @@ public class QuestionsApi {
             }
         }
     }
-
-    // non-API
 
     final String questions(final int min, final Site site) {
         return questions(min, site, 1);
