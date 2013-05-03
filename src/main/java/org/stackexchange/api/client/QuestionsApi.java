@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stackexchange.api.constants.Site;
+import org.stackexchange.api.constants.StackSite;
 
 public class QuestionsApi {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,7 +31,7 @@ public class QuestionsApi {
 
     // API
 
-    public final String questions(final int minScore, final Site site, final int page) {
+    public final String questions(final int minScore, final StackSite site, final int page) {
         final String questionsUri = ApiUris.getQuestionsUri(minScore, site, page);
         logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUri);
         try {
@@ -43,7 +43,7 @@ public class QuestionsApi {
         return null;
     }
 
-    public final String questions(final int minScore, final Site site, final String tag, final int page) {
+    public final String questions(final int minScore, final StackSite site, final String tag, final int page) {
         final String questionsUriForTag = ApiUris.getTagUri(minScore, site, tag, page);
 
         logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUriForTag);
@@ -84,11 +84,11 @@ public class QuestionsApi {
         }
     }
 
-    final String questions(final int min, final Site site) {
+    final String questions(final int min, final StackSite site) {
         return questions(min, site, 1);
     }
 
-    final HttpResponse questionsAsResponse(final int min, final Site site) {
+    final HttpResponse questionsAsResponse(final int min, final StackSite site) {
         try {
             return client.execute(new HttpGet(ApiUris.getQuestionsUri(min, site)));
         } catch (final IOException ex) {
