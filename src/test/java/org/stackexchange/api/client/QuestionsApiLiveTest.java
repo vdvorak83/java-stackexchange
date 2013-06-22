@@ -28,7 +28,7 @@ public class QuestionsApiLiveTest {
 
     @Before
     public final void before() {
-        questionsApi = new QuestionsApi(new DecompressingHttpClient(HttpUtil.httpClient()));
+        questionsApi = new QuestionsApi(new DecompressingHttpClient(HttpFactory.httpClient()));
     }
 
     // tests

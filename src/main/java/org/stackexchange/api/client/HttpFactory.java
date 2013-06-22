@@ -7,9 +7,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public final class HttpUtil {
+public final class HttpFactory {
 
-    private HttpUtil() {
+    private HttpFactory() {
         throw new AssertionError();
     }
 
