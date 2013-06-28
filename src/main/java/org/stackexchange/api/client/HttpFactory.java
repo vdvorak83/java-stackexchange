@@ -16,6 +16,10 @@ public final class HttpFactory {
     // API
 
     public static DefaultHttpClient httpClient() {
+        return httpClient(true);
+    }
+
+    public static DefaultHttpClient httpClient(final boolean followRedirects) {
         final PoolingClientConnectionManager cxMgr = new PoolingClientConnectionManager(SchemeRegistryFactory.createDefault());
         cxMgr.setMaxTotal(100);
         cxMgr.setDefaultMaxPerRoute(20);
@@ -25,6 +29,7 @@ public final class HttpFactory {
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         final int timeoutSocket = 60000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        httpParameters.setParameter("http.protocol.handle-redirects", followRedirects);
 
         final DefaultHttpClient rawHttpClient = new DefaultHttpClient(cxMgr, httpParameters);
         return rawHttpClient;
