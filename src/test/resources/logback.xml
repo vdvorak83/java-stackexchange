@@ -8,7 +8,7 @@
 	</appender>
 
 	<logger name="org.tweet" level="DEBUG" />
-	<logger name="org.stackexchange" level="DEBUG" />
+	<logger name="org.stackexchange" level="INFO" />
 
 	<logger name="org.apache.http" level="INFO" />
 
