@@ -33,7 +33,7 @@ public class QuestionsApi {
 
     public final String questions(final int minScore, final StackSite site, final int page) {
         final String questionsUri = ApiUris.getQuestionsUri(minScore, site, page);
-        logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUri);
+        logger.debug("Retrieving Questions on page = {} of site = {} via URI = {}", page, site.name(), questionsUri);
         try {
             return questions(minScore, questionsUri);
         } catch (final IOException ioEx) {
@@ -46,7 +46,7 @@ public class QuestionsApi {
     public final String questions(final int minScore, final StackSite site, final String tag, final int page) {
         final String questionsUriForTag = ApiUris.getTagUri(minScore, site, tag, page);
 
-        logger.debug("Retrieving Questions of site = {} via URI = {}", site.name(), questionsUriForTag);
+        logger.debug("Retrieving Questions on page = {} of site = {} via URI = {}", page, site.name(), questionsUriForTag);
         try {
             return questions(minScore, questionsUriForTag);
         } catch (final IOException ioEx) {
