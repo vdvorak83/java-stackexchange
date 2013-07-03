@@ -60,8 +60,8 @@ public class QuestionsApi {
 
     final String questions(final int min, final String questionsUri) throws IOException {
         HttpGet request = null;
-        InputStream entityContentStream = null;
         HttpEntity httpEntity = null;
+        InputStream entityContentStream = null;
         try {
             request = new HttpGet(questionsUri);
             final HttpResponse httpResponse = client.execute(request);
@@ -75,11 +75,11 @@ public class QuestionsApi {
             if (request != null) {
                 request.releaseConnection();
             }
-            if (entityContentStream != null) {
-                entityContentStream.close();
-            }
             if (httpEntity != null) {
                 EntityUtils.consume(httpEntity);
+            }
+            if (entityContentStream != null) {
+                entityContentStream.close();
             }
         }
     }
