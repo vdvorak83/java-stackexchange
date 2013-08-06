@@ -1,5 +1,16 @@
 package org.stackexchange.api.client;
 
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.conn.SchemeRegistryFactory;
@@ -32,8 +43,24 @@ public final class HttpFactory {
 
         final DefaultHttpClient rawHttpClient = new DefaultHttpClient(cxMgr, httpParameters);
 
+        try {
+            enableSSLOnHttpClient(cxMgr);
+        } catch (KeyManagementException | NoSuchAlgorithmException | UnrecoverableKeyException | KeyStoreException e) {
+            e.printStackTrace();
+        }
+
         logger.info("Created new Http Client; count: " + ++count);
         return rawHttpClient;
+    }
+
+    public static final void enableSSLOnHttpClient(final ClientConnectionManager connectionManager) throws NoSuchAlgorithmException, KeyManagementException, UnrecoverableKeyException, KeyStoreException {
+        final SSLSocketFactory sf = new SSLSocketFactory(new TrustStrategy() {
+            @Override
+            public boolean isTrusted(final X509Certificate[] certificate, final String authType) throws CertificateException {
+                return true;
+            }
+        }, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        connectionManager.getSchemeRegistry().register(new Scheme("https", 443, sf));
     }
 
 }
