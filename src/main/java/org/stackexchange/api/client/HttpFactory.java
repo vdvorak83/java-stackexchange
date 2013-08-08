@@ -46,7 +46,7 @@ public final class HttpFactory {
         try {
             enableSSLOnHttpClient(cxMgr);
         } catch (KeyManagementException | NoSuchAlgorithmException | UnrecoverableKeyException | KeyStoreException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
 
         logger.info("Created new Http Client; count: " + ++count);
