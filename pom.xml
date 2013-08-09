@@ -41,6 +41,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- ops -->
+
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+
 		<!-- logging -->
 
 		<dependency>
@@ -140,6 +148,9 @@
 		<httpcore.version>4.2.4</httpcore.version>
 		<org.apache.commons.io.version>2.4</org.apache.commons.io.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
+
+		<!-- ops -->
+		<metrics.version>3.0.1</metrics.version>
 
 		<!-- logging -->
 		<org.slf4j.version>1.7.5</org.slf4j.version>
