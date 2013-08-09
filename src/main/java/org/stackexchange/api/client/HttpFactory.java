@@ -61,6 +61,7 @@ public final class HttpFactory {
             }
         }, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
         connectionManager.getSchemeRegistry().register(new Scheme("https", 443, sf));
+        connectionManager.getSchemeRegistry().register(new Scheme("https", 8443, sf));
     }
 
 }
