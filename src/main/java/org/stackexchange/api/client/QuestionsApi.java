@@ -61,12 +61,11 @@ public class QuestionsApi {
     final String questions(final int min, final String questionsUri) throws IOException {
         HttpGet request = null;
         HttpEntity httpEntity = null;
-        InputStream entityContentStream = null;
         try {
             request = new HttpGet(questionsUri);
             final HttpResponse httpResponse = client.execute(request);
             httpEntity = httpResponse.getEntity();
-            entityContentStream = httpEntity.getContent();
+            final InputStream entityContentStream = httpEntity.getContent();
             final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
             return outputAsEscapedHtml;
         } catch (final IOException ex) {
@@ -77,9 +76,6 @@ public class QuestionsApi {
             }
             if (httpEntity != null) {
                 EntityUtils.consume(httpEntity);
-            }
-            if (entityContentStream != null) {
-                entityContentStream.close();
             }
         }
     }
