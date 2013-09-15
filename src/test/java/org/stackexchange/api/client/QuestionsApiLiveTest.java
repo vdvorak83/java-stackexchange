@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
@@ -107,4 +108,11 @@ public class QuestionsApiLiveTest {
         questionsApi.questions(100, StackSite.AskUbuntu);
     }
 
+    // single question by id
+
+    @Test
+    public final void whenRetrievingSingleQuestionById_thenNoExceptions() {
+        final String questionById = questionsApi.questionById(StackSite.StackOverflow, 16621738);
+        assertNotNull(questionById);
+    }
 }

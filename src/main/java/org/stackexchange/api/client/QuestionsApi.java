@@ -35,7 +35,7 @@ public class QuestionsApi {
         final String questionsUri = ApiUris.getQuestionsUri(minScore, stackSite, page);
         logger.debug("Retrieving Questions on page= {} of stackSite= {} via URI= {}", page, stackSite.name(), questionsUri);
         try {
-            return questions(minScore, questionsUri);
+            return questionsInternal(minScore, questionsUri);
         } catch (final IOException ioEx) {
             logger.error("", ioEx);
         }
@@ -48,7 +48,20 @@ public class QuestionsApi {
 
         logger.debug("Retrieving Questions on page= {} of stackSite= {} via URI= {}", page, stackSite.name(), questionsUriForTag);
         try {
-            return questions(minScore, questionsUriForTag);
+            return questionsInternal(minScore, questionsUriForTag);
+        } catch (final IOException ioEx) {
+            logger.error("", ioEx);
+        }
+
+        return null;
+    }
+
+    public final String questionById(final StackSite stackSite, final long id) {
+        final String questionUriForId = ApiUris.getSingleQuestionUri(stackSite, id);
+
+        logger.debug("Retrieving Question by id= {} of stackSite= {} via URI= {}", id, stackSite.name(), questionUriForId);
+        try {
+            return questionByIdInternal(questionUriForId);
         } catch (final IOException ioEx) {
             logger.error("", ioEx);
         }
@@ -58,11 +71,33 @@ public class QuestionsApi {
 
     // non-API
 
-    final String questions(final int min, final String questionsUri) throws IOException {
+    final String questionsInternal(final int min, final String questionsUri) throws IOException {
         HttpGet request = null;
         HttpEntity httpEntity = null;
         try {
             request = new HttpGet(questionsUri);
+            final HttpResponse httpResponse = client.execute(request);
+            httpEntity = httpResponse.getEntity();
+            final InputStream entityContentStream = httpEntity.getContent();
+            final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
+            return outputAsEscapedHtml;
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+            if (request != null) {
+                request.releaseConnection();
+            }
+            if (httpEntity != null) {
+                EntityUtils.consume(httpEntity);
+            }
+        }
+    }
+
+    final String questionByIdInternal(final String questionUri) throws IOException {
+        HttpGet request = null;
+        HttpEntity httpEntity = null;
+        try {
+            request = new HttpGet(questionUri);
             final HttpResponse httpResponse = client.execute(request);
             httpEntity = httpResponse.getEntity();
             final InputStream entityContentStream = httpEntity.getContent();
