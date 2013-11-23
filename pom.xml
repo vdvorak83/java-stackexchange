@@ -9,6 +9,12 @@
 	<url>https://github.com/eugenp/java-stackexchange</url>
 	<description>Java Client for the StackExchange 2.x API</description>
 
+	<scm>
+		<connection>scm:git:git://github.com/eugenp/java-stackexchange.git</connection>
+		<url>scm:git:git://github.com/eugenp/java-stackexchange.git</url>
+		<developerConnection>scm:git:git://github.com/eugenp/java-stackexchange.git</developerConnection>
+	</scm>
+
 	<dependencies>
 
 		<dependency>
@@ -144,7 +150,7 @@
 	<properties>
 		<!-- other -->
 		<jackson.version>2.2.3</jackson.version>
-		<httpclient.version>4.3</httpclient.version>
+		<httpclient.version>4.3.1</httpclient.version>
 		<httpcore.version>4.3</httpcore.version>
 		<org.apache.commons.io.version>2.4</org.apache.commons.io.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
@@ -188,44 +194,5 @@
 			<id>eugenp</id>
 		</developer>
 	</developers>
-
-	<scm>
-		<connection>scm:git:git://github.com/eugenp/java-stackexchange.git</connection>
-		<url>scm:git:git://github.com/eugenp/java-stackexchange.git</url>
-		<developerConnection>scm:git:git://github.com/eugenp/java-stackexchange.git</developerConnection>
-	</scm>
-
-<!-- 	<repositories> -->
-<!-- 		<repository> -->
-<!-- 			<id>jboss-public-repository-group</id> -->
-<!-- 			<name>JBoss Public Maven Repository Group</name> -->
-<!-- 			<url>https://repository.jboss.org/nexus/content/repositories/central/</url> -->
-<!-- 			<layout>default</layout> -->
-<!-- 			<releases> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</releases> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</snapshots> -->
-<!-- 		</repository> -->
-<!-- 	</repositories> -->
-<!-- 	<pluginRepositories> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>jboss-public-repository-group</id> -->
-<!-- 			<name>JBoss Public Maven Repository Group</name> -->
-<!-- 			<url>https://repository.jboss.org/nexus/content/repositories/central/</url> -->
-<!-- 			<layout>default</layout> -->
-<!-- 			<releases> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</releases> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>true</enabled> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</snapshots> -->
-<!-- 		</pluginRepository> -->
-<!-- 	</pluginRepositories> -->
 
 </project>
