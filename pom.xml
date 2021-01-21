@@ -149,7 +149,7 @@
 
 	<properties>
 		<!-- other -->
-		<jackson.version>2.2.3</jackson.version>
+		<jackson.version>2.9.10.7</jackson.version>
 		<httpclient.version>4.3.1</httpclient.version>
 		<httpcore.version>4.3.1</httpcore.version>
 		<org.apache.commons.io.version>2.4</org.apache.commons.io.version>
